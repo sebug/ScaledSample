@@ -5,11 +5,11 @@ The two related projects are [TalkNotesBack](https://github.com/sebug/TalkNotesB
 
 Here's the plan:
 
-	1. Create a multi-layer app
-	2. Put them in containers as in [this deploying docker containers on Windows Server 2016 talk](https://vimeo.com/171704656)
-	3. Push them to an Azure Container Registry
-	4. Use ACS for Kubernetes + Windows to host them
-	5. ???
-	6. Profit!
+1. Create a multi-layer app
+2. Put them in containers as in [this deploying docker containers on Windows Server 2016 talk](https://vimeo.com/171704656)
+3. Push them to an Azure Container Registry
+4. Use ACS for Kubernetes + Windows to host them
+5. ???
+6. Profit!
 
 
