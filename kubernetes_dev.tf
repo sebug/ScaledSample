@@ -47,6 +47,10 @@ resource "azurerm_storage_container" "kubernetesdev" {
   container_access_type = "private"
 }
 
+variable "containerdevpass" {
+  default = ""
+}
+
 resource "azurerm_virtual_machine" "kubernetesdev" {
   name = "acctvm"
   location = "West Europe"
