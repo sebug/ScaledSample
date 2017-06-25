@@ -12,4 +12,16 @@ Here's the plan:
 5. ???
 6. Profit!
 
+The Terraform definition outputs the development machine IP which you can connect to using RDP. When there, in PowerShell you can connect to the Kubernetes dev machine:
+
+	winrm s winrm/config/client '@{TrustedHosts="THE_IP_OF_THE_ACCTVM_MACHINE"}'
+	Enter-PSSession -ComputerName THE_IP_OF_THE_ACCTVM_MACHINE
+
+This could clearly be done as a post-deploy script.
+
+In any case, here's how you copy over the files for the docker server machine to access:
+
+	$cs = New-PSSession -ComputerName THE_IP_OF_THE_ACCTVM_MACHINE -Name KubeDev
+	Copy-Item -Recurse .\bin\Release\PublishOutput -Destination C:\Applications\TalkNotesBack -ToSession $cs
+
 
