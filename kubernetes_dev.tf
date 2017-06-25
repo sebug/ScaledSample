@@ -142,3 +142,7 @@ resource "azurerm_virtual_machine" "dockerdev" {
     environment = "dev"
   }
 }
+
+output "dockerdev-ip" {
+  value = "${azurerm_public_ip.dockerdev.ip_address}"
+}
