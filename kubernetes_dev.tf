@@ -3,6 +3,13 @@ resource "azurerm_resource_group" "kubernetesdev" {
   location = "West Europe"
 }
 
+resource "azurerm_public_ip" "kubernetesdev" {
+  name = "remotingPublicIP1"
+  location = "West Europe"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  public_ip_address_allocation = "dynamic"
+}
+
 resource "azurerm_virtual_network" "kubernetesdev" {
   name = "acctvn"
   address_space = ["10.0.0.0/16"]
@@ -26,11 +33,12 @@ resource "azurerm_network_interface" "kubernetesdev" {
     name = "kubernetesdevconfiguration1"
     subnet_id = "${azurerm_subnet.kubernetesdev.id}"
     private_ip_address_allocation = "dynamic"
+    public_ip_address_id = "${azurerm_public_ip.kubernetesdev.id}"
   }
 }
 
 resource "azurerm_storage_account" "kubernetesdev" {
-  name = "accsa"
+  name = "accsakubedevsg"
   resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
   location = "westeurope"
   account_type = "Standard_LRS"
