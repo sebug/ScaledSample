@@ -146,3 +146,7 @@ resource "azurerm_virtual_machine" "dockerdev" {
 output "dockerdev-ip" {
   value = "${azurerm_public_ip.dockerdev.ip_address}"
 }
+
+output "kubernetesdev-ip" {
+  value = "${azurerm_public_ip.kubernetesdev.ip_address}"
+}
