@@ -58,7 +58,7 @@ resource "azurerm_network_interface" "dockerdev" {
 }
 
 resource "azurerm_storage_account" "kubernetesdev" {
-  name = "accsakubedevsg"
+  name = "accsakubedevsg7"
   resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
   location = "westeurope"
   account_type = "Standard_LRS"
@@ -69,7 +69,7 @@ resource "azurerm_storage_account" "kubernetesdev" {
 }
 
 resource "azurerm_storage_container" "kubernetesdev" {
-  name = "vhds"
+  name = "vhds7"
   resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
   storage_account_name = "${azurerm_storage_account.kubernetesdev.name}"
   container_access_type = "private"
@@ -141,6 +141,22 @@ resource "azurerm_virtual_machine" "dockerdev" {
   tags {
     environment = "dev"
   }
+}
+
+resource "azurerm_virtual_machine_extension" "dockerdev" {
+  name = "getsources"
+  location = "westeurope"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  virtual_machine_name = "${azurerm_virtual_machine.dockerdev.name}"
+  publisher = "Microsoft.Compute"
+  type = "CustomScriptExtension"
+  type_handler_version = "1.8"
+
+  settings = <<SETTINGS
+{
+  "commandToExecute": "mkdir C:\\Sources && cd C:\\Sources && git clone https://github.com/sebug/TalkNotesBack.git && git clone https://github.com/sebug/TalkNotesFront.git"
+}
+SETTINGS
 }
 
 output "dockerdev-ip" {
