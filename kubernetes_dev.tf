@@ -154,7 +154,7 @@ resource "azurerm_virtual_machine_extension" "dockerdev" {
 
   settings = <<SETTINGS
 {
-  "commandToExecute": "mkdir C:\\Sources && cd C:\\Sources && git clone https://github.com/sebug/TalkNotesBack.git && git clone https://github.com/sebug/TalkNotesFront.git && git clone https://github.com/sebug/InvokeDockerServer.git"
+  "commandToExecute": "mkdir C:\\Sources && cd C:\\Sources && git clone https://github.com/sebug/TalkNotesBack.git && git clone https://github.com/sebug/TalkNotesFront.git && git clone https://github.com/sebug/InvokeDockerServer.git && PowerShell -command { Invoke-WebRequest -Uri https://nuget.org/nuget.exe -OutFile nuget.exe }"
 }
 SETTINGS
 }

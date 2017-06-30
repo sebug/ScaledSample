@@ -25,3 +25,11 @@ In any case, here's how you copy over the files for the docker server machine to
 	Copy-Item -Recurse .\bin\Release\PublishOutput -Destination C:\Applications\TalkNotesBack -ToSession $cs
 
 
+In our case, we want to build the frontend, backend on dockerdev-ip and then transfer them to the kubernetesdev-ip machine.
+
+	cd C:\Sources\InvokeDockerServer
+	. .\Build-Backend.ps1
+	Build-Backend
+	. .\Build-Frontend.ps1
+	Build-Frontend
+	
