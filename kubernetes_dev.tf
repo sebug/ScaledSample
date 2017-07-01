@@ -154,7 +154,25 @@ resource "azurerm_virtual_machine_extension" "dockerdev" {
 
   settings = <<SETTINGS
 {
-  "commandToExecute": "mkdir C:\\Sources && cd C:\\Sources && git clone https://github.com/sebug/TalkNotesBack.git && git clone https://github.com/sebug/TalkNotesFront.git && git clone https://github.com/sebug/InvokeDockerServer.git && PowerShell -command \"Invoke-WebRequest -Uri https://nuget.org/nuget.exe -OutFile C:\\Sources\\nuget.exe\""
+  "commandToExecute": "mkdir C:\\Sources && cd C:\\Sources && git clone https://github.com/sebug/TalkNotesBack.git && git clone https://github.com/sebug/TalkNotesFront.git && git clone https://github.com/sebug/InvokeDockerServer.git && git clone https://github.com/sebug/TalkNotesComposed.git && PowerShell -command \"Invoke-WebRequest -Uri https://nuget.org/nuget.exe -OutFile C:\\Sources\\nuget.exe\""
+}
+SETTINGS
+}
+
+# On the Kubernetes development machine we also want docker-compose to test
+# before pushing
+resource "azurerm_virtual_machine_extension" "kubernetesdev" {
+  name = "getsources"
+  location = "westeurope"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  virtual_machine_name = "${azurerm_virtual_machine.kubernetesdev.name}"
+  publisher = "Microsoft.Compute"
+  type = "CustomScriptExtension"
+  type_handler_version = "1.8"
+
+  settings = <<SETTINGS
+{
+  "commandToExecute": "mkdir C:\\Tools && Powershell -command \"Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/Git-2.13.2-64-bit.exe -OutFile C:\\Tools\\Git-2.13.2-64-bit.exe\" && PowerShell -command \"Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Windows-x86_64.exe -OutFile $env:ProgramFiles\\Docker\\docker-compose.exe\""
 }
 SETTINGS
 }
