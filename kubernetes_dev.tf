@@ -163,6 +163,10 @@ output "dockerdev-ip" {
   value = "${azurerm_public_ip.dockerdev.ip_address}"
 }
 
-output "kubernetesdev-ip" {
+output "kubernetesdev-internal-ip" {
+  value = "${azurerm_network_interface.kubernetesdev.private_ip_address}"
+}
+
+output "kubernetesdev-external-ip" {
   value = "${azurerm_public_ip.kubernetesdev.ip_address}"
 }
