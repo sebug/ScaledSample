@@ -68,10 +68,28 @@ resource "azurerm_storage_account" "kubernetesdev" {
   }
 }
 
+resource "azurerm_storage_account" "dockerdev" {
+  name = "accsakubedevsg8"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  location = "westeurope"
+  account_type = "Standard_LRS"
+
+  tags {
+    environment = "dev"
+  }
+}
+
 resource "azurerm_storage_container" "kubernetesdev" {
   name = "vhds7"
   resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
   storage_account_name = "${azurerm_storage_account.kubernetesdev.name}"
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "dockerdev" {
+  name = "vhds8"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  storage_account_name = "${azurerm_storage_account.dockerdev.name}"
   container_access_type = "private"
 }
 
@@ -127,7 +145,7 @@ resource "azurerm_virtual_machine" "dockerdev" {
 
   storage_os_disk {
     name = "myosdisk2"
-    vhd_uri = "${azurerm_storage_account.kubernetesdev.primary_blob_endpoint}${azurerm_storage_container.kubernetesdev.name}/myosdisk2.vhd"
+    vhd_uri = "${azurerm_storage_account.kubernetesdev.primary_blob_endpoint}${azurerm_storage_container.dockerdev.name}/myosdisk2.vhd"
     caching = "ReadWrite"
     create_option = "FromImage"
   }
