@@ -172,7 +172,7 @@ resource "azurerm_virtual_machine_extension" "kubernetesdev" {
 
   settings = <<SETTINGS
 {
-  "commandToExecute": "mkdir C:\\Tools && Powershell -command \"Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/Git-2.13.2-64-bit.exe -OutFile C:\\Tools\\Git-2.13.2-64-bit.exe\" && PowerShell -command \"Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Windows-x86_64.exe -OutFile $env:ProgramFiles\\Docker\\docker-compose.exe\""
+  "commandToExecute": "PowerShell -NoProfile -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\" && choco install -y git && mkdir C:\\Tools && PowerShell -command \"Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Windows-x86_64.exe -OutFile $env:ProgramFiles\\Docker\\docker-compose.exe\" && mkdir C:\\Sources"
 }
 SETTINGS
 }
