@@ -69,7 +69,7 @@ resource "azurerm_storage_account" "kubernetesdev" {
 }
 
 resource "azurerm_storage_account" "dockerdev" {
-  name = "accsakubedevsg8"
+  name = "accsakubedevsg9"
   resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
   location = "westeurope"
   account_type = "Standard_LRS"
@@ -190,7 +190,7 @@ resource "azurerm_virtual_machine_extension" "kubernetesdev" {
 
   settings = <<SETTINGS
 {
-  "commandToExecute": "PowerShell -NoProfile -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\" && choco install -y git && mkdir C:\\Tools && PowerShell -command \"Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Windows-x86_64.exe -OutFile $env:ProgramFiles\\Docker\\docker-compose.exe\" && mkdir C:\\Sources"
+  "commandToExecute": "PowerShell -NoProfile -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\" && choco install -y git && mkdir C:\\Tools && PowerShell -command \"Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Windows-x86_64.exe -OutFile $env:ProgramFiles\\Docker\\docker-compose.exe\" && mkdir C:\\Sources && cd C:\\Sources && \"C:\\Program Files\\Git\\cmd\\git.exe\" clone https://github.com/sebug/TalkNotesBack.git && \"C:\\Program Files\\Git\\cmd\\git.exe\" clone https://github.com/sebug/TalkNotesFront.git && \"C:\\Program Files\\Git\\cmd\\git.exe\" clone https://github.com/sebug/InvokeDockerServer.git && \"C:\\Program Files\\Git\\cmd\\git.exe\" clone https://github.com/sebug/TalkNotesComposed.git"
 }
 SETTINGS
 }
