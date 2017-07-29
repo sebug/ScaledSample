@@ -12,24 +12,7 @@ Here's the plan:
 5. ???
 6. Profit!
 
-The Terraform definition outputs the development machine IP which you can connect to using RDP. When there, in PowerShell you can connect to the Kubernetes dev machine:
+The sources of the back-end and frontend services are downloaded and built using multi-stage docker images. Just switch to the C:\Sources\TalkNotesComposed directory and execute
 
-	winrm s winrm/config/client '@{TrustedHosts="THE_IP_OF_THE_ACCTVM_MACHINE"}'
-	Enter-PSSession -ComputerName THE_IP_OF_THE_ACCTVM_MACHINE
+docker-compose -f docker-compose.yml build
 
-This could clearly be done as a post-deploy script.
-
-In any case, here's how you copy over the files for the docker server machine to access:
-
-	$cs = New-PSSession -ComputerName THE_IP_OF_THE_ACCTVM_MACHINE -Name KubeDev
-	Copy-Item -Recurse .\bin\Release\PublishOutput -Destination C:\Applications\TalkNotesBack -ToSession $cs
-
-
-In our case, we want to build the frontend, backend on dockerdev-ip and then transfer them to the kubernetesdev-ip machine.
-
-	cd C:\Sources\InvokeDockerServer
-	. .\Build-Backend.ps1
-	Build-Backend
-	. .\Build-Frontend.ps1
-	Build-Frontend
-	

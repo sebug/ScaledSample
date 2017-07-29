@@ -109,10 +109,34 @@ resource "azurerm_virtual_machine_extension" "kubernetesdev" {
 SETTINGS
 }
 
+resource "azurerm_storage_account" "registrystorage" {
+  name = "sebugregistry"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  location = "westeurope"
+  account_type = "Standard_LRS"
+}
+
+resource "azurerm_container_registry" "kubernetesdev" {
+  name = "kubeContainerRegistry"
+  resource_group_name = "${azurerm_resource_group.kubernetesdev.name}"
+  location = "westeurope"
+  admin_enabled = true
+  sku = "Basic"
+
+  storage_account {
+    name = "${azurerm_storage_account.registrystorage.name}"
+    access_key = "${azurerm_storage_account.registrystorage.primary_access_key}"
+  }
+}
+
 output "kubernetesdev-internal-ip" {
   value = "${azurerm_network_interface.kubernetesdev.private_ip_address}"
 }
 
 output "kubernetesdev-external-ip" {
   value = "${azurerm_public_ip.kubernetesdev.ip_address}"
+}
+
+output "container-registry-loginserver" {
+  value = "${azurerm_container_registry.kubernetesdev.login_server}"
 }
