@@ -1,17 +1,21 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: talk-notes-back
+  name: talknotesback
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: talk-notes-back
+        app: talknotesback
     spec:
+      hostname: talknotesback
       containers:
-        - name: talk-notes-back
+        - name: talknotesback
           image: kubecontainerregistry.azurecr.io/scaled/talknotesback
+          ports:
+          - containerPort: 8082
+            name: talknotesback
       imagePullSecrets:
         - name: regsecret
       nodeSelector:
@@ -20,12 +24,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: talk-notes-back
+  name: talknotesback
 spec:
   ports:
   - port: 8082
   selector:
-    app: talk-notes-back
+    app: talknotesback
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
