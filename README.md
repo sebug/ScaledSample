@@ -14,5 +14,15 @@ Here's the plan:
 
 The sources of the back-end and frontend services are downloaded and built using multi-stage docker images. Just switch to the C:\Sources\TalkNotesComposed directory and execute
 
-docker-compose -f docker-compose.yml build
+	docker-compose -f docker-compose.yml build
 
+Now let's push that image:
+
+	docker login ${container-registry-loginserver}
+
+Where ${container-registry-loginserver} is one of the outputs of terraform. So are admin username and password. In the next lines I'm using a concrete value for it, but you get the gist:
+
+	docker tag talknotesback kubecontainerregistry.azurecr.io/scaled/talknotesback
+	docker tag talknotesfront kubecontainerregistry.azurecr.io/scaled/talknotesfront
+	docker push kubecontainerregistry.azurecr.io/scaled/talknotesback
+	docker push kubecontainerregistry.azurecr.io/scaled/talknotesfront

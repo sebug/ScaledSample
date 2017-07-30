@@ -140,3 +140,11 @@ output "kubernetesdev-external-ip" {
 output "container-registry-loginserver" {
   value = "${azurerm_container_registry.kubernetesdev.login_server}"
 }
+
+output "container-registry-admin-username" {
+  value = "${azurerm_container_registry.kubernetesdev.admin_username}"
+}
+
+output "container-registry-admin-password" {
+  value = "${azurerm_container_registry.kubernetesdev.admin_password}"
+}
