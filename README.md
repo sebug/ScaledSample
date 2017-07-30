@@ -26,3 +26,27 @@ Where ${container-registry-loginserver} is one of the outputs of terraform. So a
 	docker tag talknotesfront kubecontainerregistry.azurecr.io/scaled/talknotesfront
 	docker push kubecontainerregistry.azurecr.io/scaled/talknotesback
 	docker push kubecontainerregistry.azurecr.io/scaled/talknotesfront
+
+Now that the images are up, let's create an azure container service instance. From what I've read there's no generalized Windows support yet? Also, I had some issues using the service principal created for Terraform, so we're using the other credentials.
+
+	az login
+	az acs create --orchestrator-type=kubernetes --resource-group kubernetesdev --name=scaledSebugCluster --agent-count=2 --generate-ssh-keys --windows --admin-username azureuser --admin-password $KUBERNETES_ADMIN_PASSWORD
+	az acs kubernetes get-credentials --resource-group=kubernetesdev --name=scaledSebugCluster
+
+
+Since we have a private registry, we'll have to create a secret to pull it: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+
+First, let's verify it works:
+
+	docker login kubecontainerregistry.azurecr.io
+
+Now we can create the secret:
+
+	kubectl create secret docker-registry regsecret --docker-server=kubecontainerregistry.azurecr.io --docker-username=... --docker-password=... --docker-email=...
+
+RESEARCH HERE: I'm currently working on this, but what you can already do is
+
+	kubectl create -f scaled-sample-pod.yaml
+	kubectl get pod private-reg
+
+
