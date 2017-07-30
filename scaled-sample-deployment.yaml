@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: talk-notes-back
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: talk-notes-back
+    spec:
+      containers:
+        - name: talk-notes-back
+          image: kubecontainerregistry.azurecr.io/scaled/talknotesback
+      imagePullSecrets:
+        - name: regsecret
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: talk-notes-back
+spec:
+  ports:
+  - port: 8082
+  selector:
+    app: talk-notes-back
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: talk-notes-front
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: talk-notes-front
+    spec:
+      containers:
+        - name: talk-notes-front
+          image: kubecontainerregistry.azurecr.io/scaled/talknotesfront
+      imagePullSecrets:
+        - name: regsecret
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: talk-notes-front
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8081
+  selector:
+    app: talk-notes-front
