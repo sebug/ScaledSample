@@ -44,9 +44,13 @@ Now we can create the secret:
 
 	kubectl create secret docker-registry regsecret --docker-server=kubecontainerregistry.azurecr.io --docker-username=... --docker-password=... --docker-email=...
 
-RESEARCH HERE: I'm currently working on this, but what you can already do is
+With all this in place we can spin up our deployment and services:
 
-	kubectl create -f scaled-sample-pod.yaml
-	kubectl get pod private-reg
+	kubectl apply -f scaled-sample-deployment.yaml
 
+There is still one annoying thing left: I didn't get DNS to work, so post the pods being up you'll have to run the following, replacing the pod ID as given:
 
+	kubectl get pods
+	kubectl exec talk-notes-front-2272407718-ktms7 -- powershell -Command '"http://$($env:TALKNOTESBACK_SERVICE_HOST):$($env:TALKNOTESBACK_SERVICE_PORT)/TalkNoteService.svc" > C:\\TalkNotesFront\\address.txt'
+
+This kind of destroys the whole point so we'll have to work on doing this differently.
