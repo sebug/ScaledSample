@@ -1,5 +1,5 @@
 # Scaled Sample
-This is the [terraform](https://www.terraform.io) part of my try at getting a scaled n-tiers application to work inside Windows Server Core on Docker, maybe even distributed on [Kubernetes](https://docs.microsoft.com/en-us/azure/container-service/container-service-kubernetes-windows-walkthrough). It spins up a development VM (expensive!) and a Windows Server 2016 instance to try out docker-compose etc.
+This is the [terraform](https://www.terraform.io) part of my try at getting a scaled n-tiers application to work inside Windows Server Core on Kubernetes. It spins up a Windows Server 2016 instance to build and push the images, then follow the steps below for the Kubernetes part.
 
 The two related projects are [TalkNotesBack](https://github.com/sebug/TalkNotesBack) and [TalkNotesFront](https://github.com/sebug/TalkNotesFront).
 
