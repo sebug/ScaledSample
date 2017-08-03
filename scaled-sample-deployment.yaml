@@ -9,13 +9,11 @@ spec:
       labels:
         app: talknotesback
     spec:
-      hostname: talknotesback
       containers:
         - name: talknotesback
           image: kubecontainerregistry.azurecr.io/scaled/talknotesback
           ports:
           - containerPort: 8082
-            name: talknotesback
       imagePullSecrets:
         - name: regsecret
       nodeSelector:
@@ -24,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: talknotesback
+  name: talk-notes-back
 spec:
   ports:
   - port: 8082
