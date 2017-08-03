@@ -30,7 +30,7 @@ Where ${container-registry-loginserver} is one of the outputs of terraform. So a
 Now that the images are up, let's create an azure container service instance. From what I've read there's no generalized Windows support yet? Also, I had some issues using the service principal created for Terraform, so we're using the other credentials.
 
 	az login
-	az acs create --orchestrator-type=kubernetes --resource-group kubernetesdev --name=scaledSebugCluster --agent-count=2 --generate-ssh-keys --windows --admin-username azureuser --admin-password $KUBERNETES_ADMIN_PASSWORD
+	az acs create --orchestrator-type=kubernetes --resource-group kubernetesdev --name=scaledSebugCluster --dns-prefix=sgk8scluster --agent-count=2 --generate-ssh-keys --windows --admin-username azureuser --admin-password $KUBERNETES_ADMIN_PASSWORD
 	az acs kubernetes get-credentials --resource-group=kubernetesdev --name=scaledSebugCluster
 
 
